@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+@theme {
+    /* Theme color tokens - High contrast slate, emerald, sky & gold */
+    --color-navy: #0F172A;
+    --color-navy-dark: #090D16;
+    --color-emerald-primary: #0D7C4A;
+    --color-emerald-light: #10B981;
+    --color-sky-primary: #0284C7;
+    --color-gold-accent: #D97706;
+    --font-sans: 'Plus Jakarta Sans', 'Instrument Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* Custom Utility Classes for Tailwind v4 */
+@utility glass-card {
+    @apply bg-white/85 backdrop-blur-xl border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-3xl transition-all duration-300;
+}
+@utility glass-card-hover {
+    @apply bg-white/85 backdrop-blur-xl border border-slate-200/80 shadow-xl shadow-slate-200/40 rounded-3xl transition-all duration-300 hover:shadow-2xl hover:shadow-slate-300/50 hover:border-slate-300/90 hover:-translate-y-1;
+}
+@utility glass-dark {
+    @apply bg-slate-900/90 backdrop-blur-xl border border-slate-800 shadow-2xl shadow-black/40 rounded-3xl;
+}
+@utility section-badge {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full bg-sky-50 text-sky-800 text-xs font-bold tracking-wider uppercase border border-sky-200/70 shadow-xs transition-all duration-200 hover:bg-sky-100;
+}
+@utility section-badge-emerald {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold tracking-wider uppercase border border-emerald-200/70 shadow-xs transition-all duration-200 hover:bg-emerald-100;
+}
+@utility nav-link {
+    @apply text-sm font-semibold text-slate-600 hover:text-sky-700 transition-all duration-200 relative cursor-pointer py-1;
+}
+@utility nav-link-active {
+    @apply text-sky-700 font-bold;
+}
+@utility floating-nav-link {
+    @apply text-[13px] font-semibold text-slate-600 hover:text-sky-700 hover:bg-sky-50/60 px-3 py-1.5 rounded-xl transition-all duration-200 cursor-pointer;
+}
+@utility floating-nav-link-active {
+    @apply text-sky-700 font-bold bg-sky-50/80;
+}
+@utility mobile-nav-link {
+    @apply block px-4 py-3 rounded-xl text-base font-semibold text-slate-700 hover:bg-slate-100/80 hover:text-sky-700 transition-colors cursor-pointer;
+}
+@utility btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold text-sm bg-gradient-to-r from-sky-600 via-sky-700 to-emerald-600 text-white shadow-lg shadow-sky-600/25 hover:shadow-xl hover:shadow-sky-600/40 hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-all duration-200 cursor-pointer;
+}
+@utility btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm bg-white/90 backdrop-blur-sm border border-slate-200 text-slate-700 hover:bg-white hover:text-slate-900 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 transition-all duration-200 cursor-pointer;
+}
+
+.nav-link-active::after {
+    content: '';
+    @apply absolute -bottom-1 left-0 w-full h-0.5 bg-sky-600 rounded-full shadow-xs;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    @apply w-2 h-2;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded-full border-2 border-transparent bg-clip-padding;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400;
+}
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes floatSlow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+}
+.animate-float {
+    animation: floatSlow 5s ease-in-out infinite;
+}
+.animate-pulse-glow {
+    animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.animation-delay-100 { animation-delay: 100ms; }
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-300 { animation-delay: 300ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+
+/* Carousel pagination active dot */
+.splide__pagination__page.is-active {
+    background: #0284c7 !important;
+    transform: scale(1.3) !important;
+}
+.splide__arrow {
+    background: rgba(255, 255, 255, 0.95) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(226, 232, 240, 0.8) !important;
+    cursor: pointer !important;
+}
+.splide__arrow:hover {
+    background: #ffffff !important;
+}
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+
