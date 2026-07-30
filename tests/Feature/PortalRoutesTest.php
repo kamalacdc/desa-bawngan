@@ -16,6 +16,7 @@ class PortalRoutesTest extends TestCase
     public function test_public_pages_are_accessible(): void
     {
         $this->get('/')->assertStatus(200);
+        $this->get('/galeri')->assertStatus(200);
         $this->get('/demografi')->assertStatus(200)->assertViewHas('history');
         $this->get('/apbdes')->assertStatus(200);
         $this->get('/berita')->assertStatus(200);
@@ -120,5 +121,32 @@ class PortalRoutesTest extends TestCase
 
         $this->actingAs($superAdmin)->get('/admin')->assertSee('Approval Berita');
         $this->actingAs($adminStaff)->get('/admin')->assertDontSee('Approval Berita');
+    }
+
+    public function test_super_admin_cannot_edit_or_delete_peer_super_admin(): void
+    {
+        $superAdmin1 = User::factory()->create(['role' => 'super_admin', 'name' => 'Super Admin 1']);
+        $superAdmin2 = User::factory()->create(['role' => 'super_admin', 'name' => 'Super Admin 2']);
+
+        // Cannot edit another super admin
+        $editResponse = $this->actingAs($superAdmin1)->get("/admin/users/{$superAdmin2->id}/edit");
+        $editResponse->assertRedirect('/admin/users');
+        $editResponse->assertSessionHas('error', 'Akun sesama Super Admin tidak dapat diubah dari manajemen pengguna.');
+
+        // Cannot update another super admin
+        $updateResponse = $this->actingAs($superAdmin1)->put("/admin/users/{$superAdmin2->id}", [
+            'name' => 'Super Admin Changed',
+            'email' => $superAdmin2->email,
+            'role' => 'super_admin',
+        ]);
+        $updateResponse->assertRedirect('/admin/users');
+        $updateResponse->assertSessionHas('error', 'Akun sesama Super Admin tidak dapat diubah dari manajemen pengguna.');
+
+        // Cannot delete any super admin
+        $deleteResponse = $this->actingAs($superAdmin1)->delete("/admin/users/{$superAdmin2->id}");
+        $deleteResponse->assertRedirect('/admin/users');
+        $deleteResponse->assertSessionHas('error', 'Akun Super Admin tidak dapat dihapus.');
+
+        $this->assertDatabaseHas('users', ['id' => $superAdmin2->id]);
     }
 }

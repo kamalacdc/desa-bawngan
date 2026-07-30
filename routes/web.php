@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 // ─── Public Frontend ─────────────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/galeri', [HomeController::class, 'gallery'])->name('galeri');
 Route::get('/demografi', [HomeController::class, 'demografi'])->name('demografi');
 Route::get('/apbdes', [HomeController::class, 'apbdes'])->name('apbdes');
 Route::get('/berita', [HomeController::class, 'news'])->name('berita');

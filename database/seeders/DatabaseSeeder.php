@@ -23,10 +23,20 @@ class DatabaseSeeder extends Seeder
         User::firstOrCreate(
             ['email' => env('ADMIN_DEFAULT_EMAIL', 'sekdes@bawangan.id')],
             [
-                'name' => 'Sekretaris Desa',
+                'name' => 'Teguh Wahyudi',
                 'password' => Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'password123')),
                 'role' => 'super_admin',
                 'jabatan' => 'Sekretaris Desa'
+            ]
+        );
+
+         User::firstOrCreate(
+            ['email' => env('ADMIN_DEFAULT_EMAIL', 'diankamaljoe222@gmail.com')],
+            [
+                'name' => 'Developer',
+                'password' => Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'password123')),
+                'role' => 'super_admin',
+                'jabatan' => 'Developer'
             ]
         );
 

@@ -65,7 +65,7 @@
                     class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:border-sky-400 focus:ring-2 focus:ring-sky-100 text-sm transition-colors @error('role') border-rose-400 bg-rose-50 @enderror">
                     <option value="">Pilih Role</option>
                     <option value="admin" {{ old('role', $user->role ?? '') === 'admin' ? 'selected' : '' }}>Admin Staff</option>
-                    <option value="super_admin" {{ old('role', $user->role ?? '') === 'super_admin' ? 'selected' : '' }}>Super Admin</option>
+                    {{-- <option value="super_admin" {{ old('role', $user->role ?? '') === 'super_admin' ? 'selected' : '' }}>Super Admin</option> --}}
                 </select>
                 @error('role')
                     <p class="mt-1 text-xs text-rose-500 font-medium">{{ $message }}</p>

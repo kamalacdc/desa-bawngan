@@ -49,12 +49,8 @@
                 <div class="hidden lg:flex items-center gap-1 ml-auto mr-4">
                     <a href="{{ route('home') }}"
                         class="floating-nav-link {{ request()->routeIs('home') ? 'floating-nav-link-active' : '' }}">Beranda</a>
-                    <!-- <a href="{{ route('home') }}#profil"
-                        class="floating-nav-link">Tentang Desa</a>
-                    <a href="{{ route('home') }}#perangkat"
-                        class="floating-nav-link">Struktural</a>
-                    <a href="{{ route('home') }}#galeri"
-                        class="floating-nav-link">Galeri</a> -->
+                    <a href="{{ route('galeri') }}"
+                        class="floating-nav-link {{ request()->routeIs('galeri*') ? 'floating-nav-link-active' : '' }}">Galeri</a>
                     <a href="{{ route('demografi') }}"
                         class="floating-nav-link {{ request()->routeIs('demografi*') ? 'floating-nav-link-active' : '' }}">Demografi</a>
                     <a href="{{ route('apbdes') }}"
@@ -128,9 +124,7 @@
         <div id="mobile-menu" class="lg:hidden hidden border-t border-white/30 bg-white/50 backdrop-blur-2xl rounded-b-2xl">
             <div class="px-4 py-4 space-y-1">
                 <a href="{{ route('home') }}" class="mobile-nav-link">Beranda</a>
-                <!-- <a href="{{ route('home') }}#profil" class="mobile-nav-link">Tentang Desa</a>
-                <a href="{{ route('home') }}#perangkat" class="mobile-nav-link">Struktural</a>
-                <a href="{{ route('home') }}#galeri" class="mobile-nav-link">Galeri</a> -->
+                <a href="{{ route('galeri') }}" class="mobile-nav-link {{ request()->routeIs('galeri*') ? 'font-bold text-sky-700' : '' }}">Galeri</a>
                 <a href="{{ route('demografi') }}" class="mobile-nav-link {{ request()->routeIs('demografi*') ? 'font-bold text-sky-700' : '' }}">Demografi</a>
                 <a href="{{ route('apbdes') }}" class="mobile-nav-link {{ request()->routeIs('apbdes*') ? 'font-bold text-sky-700' : '' }}">Anggaran</a>
                 <div class="space-y-1">

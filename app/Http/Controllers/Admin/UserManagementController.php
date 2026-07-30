@@ -48,7 +48,7 @@ class UserManagementController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'jabatan' => ['nullable', 'string', 'max:255'],
-            'role' => ['required', Rule::in(['super_admin', 'admin'])],
+            'role' => ['required', Rule::in(['admin'])],
             'password' => ['required', 'confirmed', Password::min(8)],
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -74,6 +74,13 @@ class UserManagementController extends Controller
      */
     public function edit(User $user)
     {
+        // Prevent editing peer Super Admin accounts
+        if ($user->isSuperAdmin() && $user->id !== Auth::id()) {
+            return redirect()
+                ->route('admin.users.index')
+                ->with('error', 'Akun sesama Super Admin tidak dapat diubah dari manajemen pengguna.');
+        }
+
         return view('admin.users.form', compact('user'));
     }
 
@@ -82,6 +89,13 @@ class UserManagementController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // Prevent updating peer Super Admin accounts
+        if ($user->isSuperAdmin() && $user->id !== Auth::id()) {
+            return redirect()
+                ->route('admin.users.index')
+                ->with('error', 'Akun sesama Super Admin tidak dapat diubah dari manajemen pengguna.');
+        }
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
@@ -116,11 +130,11 @@ class UserManagementController extends Controller
      */
     public function destroy(User $user)
     {
-        // Prevent self-deletion
-        if ($user->id === Auth::id()) {
+        // Prevent deleting any Super Admin account
+        if ($user->isSuperAdmin()) {
             return redirect()
                 ->route('admin.users.index')
-                ->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
+                ->with('error', 'Akun Super Admin tidak dapat dihapus.');
         }
 
         $name = $user->name;

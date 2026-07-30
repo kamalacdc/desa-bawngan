@@ -34,8 +34,8 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
-        // Galeri Kegiatan Desa
-        $galleries = Gallery::active()->ordered()->take(8)->get();
+        // Galeri Kegiatan Desa (6 Foto Terbaru)
+        $galleries = Gallery::active()->latest()->take(6)->get();
             
         // Budget Summary
         $budgetSummary = null;
@@ -160,5 +160,24 @@ class HomeController extends Controller
             'incomeByCategory',
             'expenseByCategory'
         ));
+    }
+
+    public function gallery(Request $request)
+    {
+        $query = Gallery::active();
+
+        if ($request->filled('kategori')) {
+            $query->where('category', $request->kategori);
+        }
+
+        $galleries = $query->latest()->paginate(12)->withQueryString();
+        
+        $categories = Gallery::active()
+            ->whereNotNull('category')
+            ->where('category', '!=', '')
+            ->pluck('category')
+            ->unique();
+
+        return view('galeri.index', compact('galleries', 'categories'));
     }
 }
