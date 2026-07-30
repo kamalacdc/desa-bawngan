@@ -36,8 +36,12 @@
                 <tr class="hover:bg-slate-50/70 transition-colors">
                     <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-600 to-emerald-600 flex items-center justify-center text-white text-xs font-extrabold shrink-0 shadow-xs border border-white/20">
-                                {{ strtoupper(substr($user->name, 0, 1)) }}
+                            <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-600 to-emerald-600 flex items-center justify-center text-white text-xs font-extrabold shrink-0 shadow-xs border border-white/20 overflow-hidden">
+                                @if($user->avatar)
+                                    <img src="{{ asset('storage/' . $user->avatar) }}" class="w-full h-full object-cover">
+                                @else
+                                    {{ strtoupper(substr($user->name, 0, 1)) }}
+                                @endif
                             </div>
                             <div>
                                 <p class="font-extrabold text-slate-900 text-sm mb-0.5">{{ $user->name }}</p>

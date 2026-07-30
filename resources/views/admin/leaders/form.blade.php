@@ -31,7 +31,7 @@
         <div class="grid sm:grid-cols-2 gap-6">
             <div>
                 <label for="sort_order" class="block text-sm font-bold text-slate-700 mb-2">Urutan Tampil <span class="text-rose-500">*</span></label>
-                <input type="number" id="sort_order" name="sort_order" value="{{ old('sort_order', $leader->sort_order ?? 0) }}" min="0" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition-colors bg-slate-50 focus:bg-white text-slate-800">
+                <input type="number" id="sort_order" name="sort_order" value="{{ old('sort_order', $leader->sort_order ?? $nextSortOrder ?? 1) }}" min="0" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition-colors bg-slate-50 focus:bg-white text-slate-800">
                 <p class="mt-1 text-xs text-slate-500">Angka lebih kecil tampil lebih awal (0, 1, 2...)</p>
                 @error('sort_order')<p class="mt-1 text-sm text-rose-500">{{ $message }}</p>@enderror
             </div>

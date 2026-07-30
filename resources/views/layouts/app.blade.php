@@ -35,7 +35,7 @@
             <div class="flex items-center justify-between h-14 lg:h-16">
                 {{-- Logo --}}
                 <a href="{{ route('home') }}" class="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-sky-500/50 rounded-xl p-1">
-                    <div class="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center bg-white/80 border border-white/60 p-1 group-hover:scale-105 transition-transform duration-200 shadow-sm">
+                    <div class="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center  group-hover:scale-105 transition-transform duration-200 shadow-sm">
                         <img src="{{ asset('logo/jombang.png') }}" alt="Logo Desa Bawangan"
                             class="w-full h-full object-contain">
                     </div>

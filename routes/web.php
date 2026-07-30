@@ -45,7 +45,10 @@ Route::prefix('admin')
         Route::resource('news', NewsController::class)->names('admin.news');
         Route::post('news/{news}/submit', [NewsController::class, 'submit'])->name('admin.news.submit');
 
-        // Account (change password — all admins)
+        // Account Profile & Security (all admins & super admins)
+        Route::get('account/profile', [AccountController::class, 'profile'])->name('admin.account.profile');
+        Route::put('account/profile', [AccountController::class, 'updateProfile'])->name('admin.account.update-profile');
+        Route::delete('account/avatar', [AccountController::class, 'removeAvatar'])->name('admin.account.remove-avatar');
         Route::get('account/change-password', [AccountController::class, 'showChangePassword'])->name('admin.account.change-password');
         Route::put('account/change-password', [AccountController::class, 'updatePassword'])->name('admin.account.update-password');
 
@@ -77,15 +80,17 @@ Route::prefix('admin')
             // Data Management
             Route::resource('leaders', LeaderController::class)->names('admin.leaders');
             Route::resource('population', PopulationDataController::class)->names('admin.population');
-            Route::post('population/sync', [PopulationDataController::class, 'syncFromSpreadsheet'])->name('admin.population.sync');
+            Route::post('population/sync', [PopulationDataController::class, 'syncFromSpreadsheet'])->middleware('throttle:10,1')->name('admin.population.sync');
             Route::resource('budget', BudgetDataController::class)->names('admin.budget');
-            Route::post('budget/sync', [BudgetDataController::class, 'syncFromSpreadsheet'])->name('admin.budget.sync');
+            Route::post('budget/sync', [BudgetDataController::class, 'syncFromSpreadsheet'])->middleware('throttle:10,1')->name('admin.budget.sync');
 
             // User Management
             Route::resource('users', UserManagementController::class)->names('admin.users')->except(['show']);
         });
 
-        // Chart API endpoints
-        Route::get('api/population-chart/{year}', [PopulationDataController::class, 'chartData'])->name('admin.api.population-chart');
-        Route::get('api/budget-chart/{year}', [BudgetDataController::class, 'chartData'])->name('admin.api.budget-chart');
+        // Chart API endpoints (Rate limited to 60 requests per minute)
+        Route::middleware('throttle:60,1')->group(function () {
+            Route::get('api/population-chart/{year}', [PopulationDataController::class, 'chartData'])->name('admin.api.population-chart');
+            Route::get('api/budget-chart/{year}', [BudgetDataController::class, 'chartData'])->name('admin.api.budget-chart');
+        });
     });

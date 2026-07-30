@@ -19,22 +19,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Users
-        User::create([
-            'name' => 'Sekretaris Desa',
-            'email' => 'sekdes@bawangan.id',
-            'password' => Hash::make('password123'),
-            'role' => 'super_admin',
-            'jabatan' => 'Sekretaris Desa'
-        ]);
+        // Users (Use firstOrCreate to prevent overwriting existing accounts in production)
+        User::firstOrCreate(
+            ['email' => env('ADMIN_DEFAULT_EMAIL', 'sekdes@bawangan.id')],
+            [
+                'name' => 'Sekretaris Desa',
+                'password' => Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'password123')),
+                'role' => 'super_admin',
+                'jabatan' => 'Sekretaris Desa'
+            ]
+        );
 
-        User::create([
-            'name' => 'Admin Staff',
-            'email' => 'admin@bawangan.id',
-            'password' => Hash::make('password123'),
-            'role' => 'admin',
-            'jabatan' => 'Staf IT'
-        ]);
+        User::firstOrCreate(
+            ['email' => env('STAFF_DEFAULT_EMAIL', 'admin@bawangan.id')],
+            [
+                'name' => 'Admin Staff',
+                'password' => Hash::make(env('STAFF_DEFAULT_PASSWORD', 'password123')),
+                'role' => 'admin',
+                'jabatan' => 'Staf IT'
+            ]
+        );
 
         // Categories
         $categories = ['Pengumuman', 'Berita Desa', 'Pembangunan', 'Kegiatan Warga'];

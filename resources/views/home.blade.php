@@ -1,22 +1,43 @@
 @extends('layouts.app')
 
 @section('title', 'Beranda')
-@section('meta_description', 'Website Resmi Pemerintah Desa Bawangan  Merawat tradisi, mendorong kemandirian ekonomi, dan membangun masa depan desa yang sejahtera.')
+@section('meta_description', 'Website Resmi Pemerintah Desa Bawangan Merawat tradisi, mendorong kemandirian ekonomi, dan
+    membangun masa depan desa yang sejahtera.')
 
-@push('styles')
-<style>
-    @keyframes marquee {
-        0% { transform: translateX(0%); }
-        100% { transform: translateX(-50%); }
-    }
-    .animate-marquee {
-        display: inline-flex;
-        animation: marquee 50s linear infinite;
-        white-space: nowrap;
-        will-change: transform;
-    }
-</style>
-@endpush
+    @push('styles')
+        <style>
+            @keyframes marquee {
+                0% {
+                    transform: translateX(0%);
+                }
+
+                100% {
+                    transform: translateX(-50%);
+                }
+            }
+
+            .animate-marquee {
+                display: inline-flex;
+                animation: marquee 50s linear infinite;
+                white-space: nowrap;
+                will-change: transform;
+            }
+
+            /* Main Hero Carousel Navigation Buttons: Revealed ONLY when cursor is very close to the button */
+            .hero-nav-wrapper .carousel-nav-btn {
+                opacity: 0;
+                pointer-events: none;
+                transform: scale(0.85);
+                transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+            }
+
+            .hero-nav-wrapper:hover .carousel-nav-btn {
+                opacity: 1;
+                pointer-events: auto;
+                transform: scale(1);
+            }
+        </style>
+    @endpush
 
 @section('content')
 
@@ -81,37 +102,31 @@
 
                 {{-- Navigation Arrows --}}
                 @if ($slides->count() > 1)
-                    <button id="carousel-prev-hero"
-                        class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white/25 transition-all group"
-                        aria-label="Slide sebelumnya">
-                        <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <button id="carousel-next-hero"
-                        class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white flex items-center justify-center hover:bg-white/25 transition-all group"
-                        aria-label="Slide selanjutnya">
-                        <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-
-                    {{-- Dots Indicator --}}
-                    <div class="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2.5">
-                        @foreach ($slides as $index => $slide)
-                            <button
-                                class="carousel-dot w-2.5 h-2.5 rounded-full transition-all duration-300 {{ $index === 0 ? 'bg-white w-8' : 'bg-white/40 hover:bg-white/60' }}"
-                                data-dot="{{ $index }}" aria-label="Slide {{ $index + 1 }}"></button>
-                        @endforeach
+                    <div class="hero-nav-wrapper absolute left-0 top-1/2 -translate-y-1/2 z-20 p-6 sm:p-10 flex items-center justify-center">
+                        <button id="carousel-prev-hero"
+                            class="carousel-nav-btn w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center hover:bg-white/35 transition-all duration-300 group hover:scale-105 active:scale-95 shadow-lg cursor-pointer"
+                            aria-label="Slide sebelumnya">
+                            <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="hero-nav-wrapper absolute right-0 top-1/2 -translate-y-1/2 z-20 p-6 sm:p-10 flex items-center justify-center">
+                        <button id="carousel-next-hero"
+                            class="carousel-nav-btn w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center hover:bg-white/35 transition-all duration-300 group hover:scale-105 active:scale-95 shadow-lg cursor-pointer"
+                            aria-label="Slide selanjutnya">
+                            <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
                     </div>
                 @endif
             </div>
         @else
             {{-- Fallback if no slides --}}
-            <div
-                class="relative h-full flex items-center bg-gradient-to-br from-slate-900 via-sky-950 to-emerald-950">
+            <div class="relative h-full flex items-center bg-gradient-to-br from-slate-900 via-sky-950 to-emerald-950">
                 <div
                     class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.03%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%221.5%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-60">
                 </div>
@@ -146,7 +161,10 @@
                             </a>
                             <a href="{{ route('berita') }}"
                                 class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-sm bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 hover:-translate-y-0.5 active:translate-y-0 transition-all cursor-pointer">
-                                <svg class="w-4 h-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                                <svg class="w-4 h-4 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                                </svg>
                                 <span>Baca Berita Desa</span>
                             </a>
                         </div>
@@ -156,22 +174,29 @@
         @endif
 
         {{-- Hero bottom semi-blur effect --}}
-        <div class="absolute bottom-0 inset-x-0 z-20 h-4 sm:h-6 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent backdrop-blur-sm pointer-events-none"></div>
+        <div
+            class="absolute bottom-0 inset-x-0 z-20 h-4 sm:h-6 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent backdrop-blur-sm pointer-events-none">
+        </div>
     </section>
 
     {{-- ═══ RUNNING TEXT ANNOUNCEMENT BANNER ═══ --}}
     <div class="relative z-30 bg-slate-900 border-y border-slate-800 text-white shadow-xl overflow-hidden py-3.5">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-4">
             {{-- Info Badge Label --}}
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-emerald-600 text-white text-xs font-extrabold tracking-wider uppercase shrink-0 shadow-md">
+            <div
+                class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-sky-600 to-emerald-600 text-white text-xs font-extrabold tracking-wider uppercase shrink-0 shadow-md">
                 <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
-                <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                </svg>
                 <span>INFO DESA</span>
             </div>
 
             {{-- Running Text Marquee Container --}}
             <div class="overflow-hidden flex-1 relative whitespace-nowrap">
-                <div class="inline-flex animate-marquee hover:[animation-play-state:paused] items-center gap-8 text-xs sm:text-sm font-medium text-slate-300">
+                <div
+                    class="inline-flex animate-marquee hover:[animation-play-state:paused] items-center gap-8 text-xs sm:text-sm font-medium text-slate-300">
                     {{-- Copy 1 --}}
                     <span class="inline-flex items-center gap-2">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
@@ -183,9 +208,10 @@
                         Layanan Pelayanan Publik Kantor Desa Buka Setiap Hari Kerja (Senin – Jumat, 08.00 – 14.00 WIB).
                     </span>
                     <span class="text-sky-400 font-bold">•</span>
-                    @if(isset($latestNews) && $latestNews->isNotEmpty())
-                        @foreach($latestNews as $newsItem)
-                            <a href="{{ route('berita.detail', $newsItem->slug) }}" class="inline-flex items-center gap-2 hover:text-emerald-300 transition-colors">
+                    @if (isset($latestNews) && $latestNews->isNotEmpty())
+                        @foreach ($latestNews as $newsItem)
+                            <a href="{{ route('berita.detail', $newsItem->slug) }}"
+                                class="inline-flex items-center gap-2 hover:text-emerald-300 transition-colors">
                                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                                 <span class="text-amber-300 font-extrabold">KABAR DESA:</span> {{ $newsItem->title }}
                             </a>
@@ -209,9 +235,10 @@
                         Layanan Pelayanan Publik Kantor Desa Buka Setiap Hari Kerja (Senin – Jumat, 08.00 – 14.00 WIB).
                     </span>
                     <span class="text-sky-400 font-bold">•</span>
-                    @if(isset($latestNews) && $latestNews->isNotEmpty())
-                        @foreach($latestNews as $newsItem)
-                            <a href="{{ route('berita.detail', $newsItem->slug) }}" class="inline-flex items-center gap-2 hover:text-emerald-300 transition-colors">
+                    @if (isset($latestNews) && $latestNews->isNotEmpty())
+                        @foreach ($latestNews as $newsItem)
+                            <a href="{{ route('berita.detail', $newsItem->slug) }}"
+                                class="inline-flex items-center gap-2 hover:text-emerald-300 transition-colors">
                                 <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
                                 <span class="text-amber-300 font-extrabold">KABAR DESA:</span> {{ $newsItem->title }}
                             </a>
@@ -233,19 +260,24 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-14">
                 <div class="section-badge mx-auto">
-                    <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0V5m0 6h4m-4 0H9"/></svg>
+                    <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0V5m0 6h4m-4 0H9" />
+                    </svg>
                     <span>Tentang Desa</span>
                 </div>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Profil <span class="text-sky-700">Desa Bawangan</span></h2>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Profil <span
+                        class="text-sky-700">Desa Bawangan</span></h2>
             </div>
 
-            <div class="glass-card p-8 relative overflow-hidden group hover:shadow-2xl transition-shadow duration-300 mb-12">
+            <div
+                class="glass-card p-8 relative overflow-hidden group hover:shadow-2xl transition-shadow duration-300 mb-12">
                 <div class="relative z-10">
                     <div class="flex items-center gap-3 mb-6">
-                        <div
-                                class="w-12 h-12 rounded-xl bg-white flex items-center justify-center ">
-                                <img src="{{ asset('logo/jombang.png') }}" alt="Logo Jombang" class="w-full h-full object-contain">
-                            </div>
+                        <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center ">
+                            <img src="{{ asset('logo/jombang.png') }}" alt="Logo Jombang"
+                                class="w-full h-full object-contain">
+                        </div>
                         <div>
                             <h3 class="text-xl font-bold text-slate-800">Sejarah & Profil Desa</h3>
                             <p class="text-xs text-slate-500">Ringkasan identitas, sejarah, dan kondisi Desa Bawangan.</p>
@@ -265,12 +297,23 @@
                         <div class="bg-slate-50 rounded-3xl p-6 border border-slate-200/80">
                             <h4 class="text-sm font-bold text-slate-700 mb-3">Profil Desa</h4>
                             <p class="text-slate-600 text-sm leading-relaxed">
-                                {{ $profile->name ?? 'Desa Bawangan' }} adalah desa yang berlokasi di {{ !empty($profile->address) ? $profile->address : 'Kecamatan Ploso, Kabupaten Jombang' }} dengan total luas wilayah mencakup {{ $profile->area ?? '124 Ha' }}. Sebagai pusat pemerintahan dan pelayanan masyarakat, Desa Bawangan selalu berupaya meningkatkan kualitas pelayanan publik yang ramah, transparan, dan akuntabel demi kemajuan serta kesejahteraan seluruh warga.
-                                @if(!empty($profile->phone) || !empty($profile->email))
+                                {{ $profile->name ?? 'Desa Bawangan' }} adalah desa yang berlokasi di
+                                {{ !empty($profile->address) ? $profile->address : 'Kecamatan Ploso, Kabupaten Jombang' }}
+                                dengan total luas wilayah mencakup {{ $profile->area ?? '124 Ha' }}. Sebagai pusat
+                                pemerintahan dan pelayanan masyarakat, Desa Bawangan selalu berupaya meningkatkan kualitas
+                                pelayanan publik yang ramah, transparan, dan akuntabel demi kemajuan serta kesejahteraan
+                                seluruh warga.
+                                @if (!empty($profile->phone) || !empty($profile->email))
                                     Masyarakat dapat menghubungi kantor desa melalui
-                                    @if(!empty($profile->phone)) telepon <span class="font-semibold text-slate-700">{{ $profile->phone }}</span>@endif
-                                    @if(!empty($profile->phone) && !empty($profile->email)) maupun @endif
-                                    @if(!empty($profile->email)) email <span class="font-semibold text-slate-700">{{ $profile->email }}</span>@endif.
+                                    @if (!empty($profile->phone))
+                                        telepon <span class="font-semibold text-slate-700">{{ $profile->phone }}</span>
+                                    @endif
+                                    @if (!empty($profile->phone) && !empty($profile->email))
+                                        maupun
+                                    @endif
+                                    @if (!empty($profile->email))
+                                        email <span class="font-semibold text-slate-700">{{ $profile->email }}</span>
+                                    @endif.
                                 @endif
                             </p>
                         </div>
@@ -283,9 +326,9 @@
                 <div class="glass-card p-8 relative overflow-hidden group hover:shadow-2xl transition-shadow duration-300">
                     <div class="relative z-10 flex flex-col">
                         <div class="flex items-center gap-3 mb-6">
-                            <div
-                                class="w-12 h-12 rounded-xl bg-white flex items-center justify-center ">
-                                <img src="{{ asset('logo/jombang.png') }}" alt="Logo Jombang" class="w-full h-full object-contain">
+                            <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center ">
+                                <img src="{{ asset('logo/jombang.png') }}" alt="Logo Jombang"
+                                    class="w-full h-full object-contain">
                             </div>
                             <div>
                                 <h3 class="text-xl font-bold text-slate-800">Visi & Misi Desa</h3>
@@ -316,12 +359,13 @@
                 <div class="glass-card p-8 relative overflow-hidden group hover:shadow-2xl transition-shadow duration-300">
                     <div class="relative z-10 flex flex-col">
                         <div class="flex items-center gap-3 mb-6">
-                            <div
-                                class="w-12 h-12 rounded-xl bg-white flex items-center justify-center ">
-                                <img src="{{ asset('logo/jombang.png') }}" alt="Logo Jombang" class="w-full h-full object-contain">
+                            <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center ">
+                                <img src="{{ asset('logo/jombang.png') }}" alt="Logo Jombang"
+                                    class="w-full h-full object-contain">
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold text-slate-800">{{ $profile->welcome_title ?? 'Sambutan Kepala Desa' }}</h3>
+                                <h3 class="text-xl font-bold text-slate-800">
+                                    {{ $profile->welcome_title ?? 'Sambutan Kepala Desa' }}</h3>
                             </div>
                         </div>
 
@@ -343,8 +387,10 @@
                                         </div>
                                     @endif
                                 </div>
-                                <p class="text-sm font-bold text-slate-800 leading-snug">{{ $kades->name ?? 'Kepala Desa' }}</p>
-                                <p class="text-xs text-sky-600 font-semibold mt-0.5">{{ $kades->position ?? 'Kepala Desa Bawangan' }}</p>
+                                <p class="text-sm font-bold text-slate-800 leading-snug">
+                                    {{ $kades->name ?? 'Kepala Desa' }}</p>
+                                <p class="text-xs text-sky-600 font-semibold mt-0.5">
+                                    {{ $kades->position ?? 'Kepala Desa Bawangan' }}</p>
                             </div>
 
                             {{-- Teks Sambutan Kades (Right Side) --}}
@@ -369,11 +415,16 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-14">
                 <div class="section-badge-emerald mx-auto">
-                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
                     <span>Ekonomi Kreatif</span>
                 </div>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Potensi <span class="text-emerald-700">UMKM Desa</span></h2>
-                <p class="text-slate-600 text-sm mt-3 max-w-xl mx-auto font-medium">Karya lokal kreatif dan produk unggulan asli buatan warga Desa Bawangan.</p>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Potensi <span
+                        class="text-emerald-700">UMKM Desa</span></h2>
+                <p class="text-slate-600 text-sm mt-3 max-w-xl mx-auto font-medium">Karya lokal kreatif dan produk unggulan
+                    asli buatan warga Desa Bawangan.</p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -403,25 +454,31 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-14">
                     <div class="section-badge mx-auto">
-                        <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
                         <span>Perangkat Desa</span>
                     </div>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Struktur Pemerintahan <span
-                            class="text-sky-700">Desa Bawangan</span></h2>
-                    <p class="text-slate-600 text-sm mt-3 max-w-xl mx-auto font-medium">Perangkat desa yang bertugas melayani masyarakat Desa
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Struktur Pemerintahan
+                        <span class="text-sky-700">Desa Bawangan</span></h2>
+                    <p class="text-slate-600 text-sm mt-3 max-w-xl mx-auto font-medium">Perangkat desa yang bertugas
+                        melayani masyarakat Desa
                         Bawangan dengan penuh dedikasi.</p>
                 </div>
 
                 <div class="leader-carousel-wrapper relative group/carousel" id="leader-carousel-wrapper">
                     {{-- Navigation Buttons --}}
                     <button id="leader-carousel-prev"
-                        class="absolute -left-2 sm:-left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 shadow-md flex items-center justify-center text-slate-700 hover:text-sky-600 hover:bg-white hover:border-sky-300 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 opacity-100" aria-label="Slide sebelumnya">
+                        class="absolute -left-2 sm:-left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 shadow-md flex items-center justify-center text-slate-700 hover:text-sky-600 hover:bg-white hover:border-sky-300 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 opacity-100"
+                        aria-label="Slide sebelumnya">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
                     <button id="leader-carousel-next"
-                        class="absolute -right-2 sm:-right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 shadow-md flex items-center justify-center text-slate-700 hover:text-sky-600 hover:bg-white hover:border-sky-300 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 opacity-100" aria-label="Slide selanjutnya">
+                        class="absolute -right-2 sm:-right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm border border-slate-200 shadow-md flex items-center justify-center text-slate-700 hover:text-sky-600 hover:bg-white hover:border-sky-300 hover:shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 opacity-100"
+                        aria-label="Slide selanjutnya">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
@@ -471,7 +528,11 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
                     <div>
                         <div class="section-badge">
-                            <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                            <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                            </svg>
                             <span>Berita Terbaru</span>
                         </div>
                         <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Kabar <span
@@ -492,14 +553,19 @@
                         <article
                             class="news-card group bg-white rounded-3xl overflow-hidden shadow-xs hover:shadow-2xl hover:shadow-slate-200/60 border border-slate-200/80 transition-all duration-300 hover:-translate-y-1 cursor-pointer">
                             <a href="{{ route('berita.detail', $news->slug) }}" class="block">
-                                <div class="relative h-56 sm:h-60 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+                                <div
+                                    class="relative h-56 sm:h-60 overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
                                     @if ($news->featured_image)
                                         <img src="{{ asset('storage/' . $news->featured_image) }}"
                                             alt="{{ $news->title }}"
                                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center text-slate-400">
-                                            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                                            <svg class="w-10 h-10" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                                            </svg>
                                         </div>
                                     @endif
                                     <div class="absolute top-3 left-3">
@@ -515,8 +581,16 @@
                                         <span>·</span>
                                         <span>{{ $news->author->name }}</span>
                                     </div>
-                                    <span class="flex items-center gap-1 text-slate-600 font-bold text-[11px] bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200/60" title="{{ number_format($news->views_count) }} kali dibaca">
-                                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                    <span
+                                        class="flex items-center gap-1 text-slate-600 font-bold text-[11px] bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200/60"
+                                        title="{{ number_format($news->views_count) }} kali dibaca">
+                                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
                                         {{ number_format($news->views_count) }}x
                                     </span>
                                 </div>
@@ -546,14 +620,19 @@
     @if ($galleries->isNotEmpty())
         <section id="galeri" class="py-20 bg-white border-t border-slate-100">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                
+
                 {{-- Header Section --}}
                 <div class="text-center mb-12">
                     <div class="section-badge-emerald mx-auto mb-3">
-                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                         <span>Dokumentasi Desa</span>
                     </div>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Galeri <span class="text-emerald-700">Kegiatan Desa</span></h2>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Galeri <span
+                            class="text-emerald-700">Kegiatan Desa</span></h2>
                     <div class="w-20 h-1 bg-gradient-to-r from-sky-600 to-emerald-600 mx-auto rounded-full mb-4"></div>
                     <p class="text-slate-600 text-sm max-w-2xl mx-auto font-medium">
                         Dokumentasi kegiatan, gotong royong, dan momen-momen penting di Desa Bawangan.
@@ -563,47 +642,66 @@
                 {{-- Grid Galeri (Ukuran Foto Diperbesar dengan Grid 3 Kolom & Modal Pop-Up) --}}
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                     @foreach ($galleries as $item)
-                        <div onclick="openGalleryModal(this)"
-                             data-title="{{ $item->title }}"
-                             data-image="{{ asset('storage/' . $item->image) }}"
-                             data-date="{{ $item->date ? $item->date->translatedFormat('d F Y') : '' }}"
-                             data-category="{{ $item->category ?? '' }}"
-                             data-description="{{ $item->description ?? '' }}"
-                             class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 aspect-[4/3] cursor-pointer border border-slate-200/80 bg-slate-900">
-                            
+                        <div onclick="openGalleryModal(this)" data-title="{{ $item->title }}"
+                            data-image="{{ asset('storage/' . $item->image) }}"
+                            data-date="{{ $item->date ? $item->date->translatedFormat('d F Y') : '' }}"
+                            data-category="{{ $item->category ?? '' }}"
+                            data-description="{{ $item->description ?? '' }}"
+                            class="group relative rounded-3xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 aspect-[4/3] cursor-pointer border border-slate-200/80 bg-slate-900">
+
                             {{-- Foto Utama --}}
-                            <img src="{{ asset('storage/' . $item->image) }}" 
-                                 alt="{{ $item->title }}" 
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            
+                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->title }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+
                             {{-- Top-Right Badge (Kategori/Zoom Icon) --}}
                             <div class="absolute top-4 right-4 z-10">
-                                @if($item->category)
-                                    <span class="px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-emerald-300 text-xs font-extrabold tracking-wider uppercase border border-emerald-400/30 flex items-center gap-1.5 shadow-md">
-                                        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                @if ($item->category)
+                                    <span
+                                        class="px-3 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-emerald-300 text-xs font-extrabold tracking-wider uppercase border border-emerald-400/30 flex items-center gap-1.5 shadow-md">
+                                        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
                                         {{ $item->category }}
                                     </span>
                                 @else
-                                    <span class="p-2 rounded-full bg-black/50 backdrop-blur-md text-white/90 border border-white/20 flex items-center justify-center shadow-md">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/></svg>
+                                    <span
+                                        class="p-2 rounded-full bg-black/50 backdrop-blur-md text-white/90 border border-white/20 flex items-center justify-center shadow-md">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+                                        </svg>
                                     </span>
                                 @endif
                             </div>
 
                             {{-- Overlay Caption on Hover --}}
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 sm:p-6 z-10">
-                                @if($item->date)
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5 sm:p-6 z-10">
+                                @if ($item->date)
                                     <p class="text-xs font-semibold text-emerald-300 mb-1 flex items-center gap-1.5">
-                                        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                        </svg>
                                         <span>{{ $item->date->translatedFormat('d F Y') }}</span>
                                     </p>
                                 @endif
-                                <p class="text-white font-extrabold text-base sm:text-lg leading-snug translate-y-3 group-hover:translate-y-0 transition-transform duration-300 line-clamp-2">
+                                <p
+                                    class="text-white font-extrabold text-base sm:text-lg leading-snug translate-y-3 group-hover:translate-y-0 transition-transform duration-300 line-clamp-2">
                                     {{ $item->title }}
                                 </p>
-                                <span class="inline-flex items-center gap-1.5 text-xs text-sky-300 font-bold mt-2.5 translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
+                                <span
+                                    class="inline-flex items-center gap-1.5 text-xs text-sky-300 font-bold mt-2.5 translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
                                     <span>Lihat Foto Perbesar</span>
-                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
                                 </span>
                             </div>
                         </div>
@@ -613,48 +711,69 @@
         </section>
 
         {{-- ═══ MODAL POP-UP GALERI (LIGHTBOX UKURAN BESAR) ═══ --}}
-        <div id="galleryModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div id="galleryModal"
+            class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
             {{-- Backdrop --}}
-            <div class="fixed inset-0 bg-slate-950/85 backdrop-blur-md transition-opacity" onclick="closeGalleryModal()"></div>
+            <div class="fixed inset-0 bg-slate-950/85 backdrop-blur-md transition-opacity" onclick="closeGalleryModal()">
+            </div>
 
             {{-- Modal Content Container --}}
-            <div id="galleryModalContent" class="relative bg-white rounded-3xl shadow-2xl w-full max-w-5xl mx-auto overflow-hidden transform scale-95 opacity-0 transition-all duration-300 flex flex-col z-10 my-auto">
-                
+            <div id="galleryModalContent"
+                class="relative bg-white rounded-3xl shadow-2xl w-full max-w-5xl mx-auto overflow-hidden transform scale-95 opacity-0 transition-all duration-300 flex flex-col z-10 my-auto">
+
                 {{-- Header --}}
-                <div class="bg-gradient-to-r from-sky-700 via-sky-800 to-emerald-700 px-6 py-4.5 flex justify-between items-center z-10 border-b border-white/10">
+                <div
+                    class="bg-gradient-to-r from-sky-700 via-sky-800 to-emerald-700 px-6 py-4.5 flex justify-between items-center z-10 border-b border-white/10">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <div class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
-                            <svg class="w-5 h-5 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <div
+                            class="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
+                            <svg class="w-5 h-5 text-emerald-300" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
                         </div>
                         <div>
-                            <h3 id="galleryModalTitle" class="text-white font-extrabold text-base sm:text-lg leading-tight line-clamp-1">
+                            <h3 id="galleryModalTitle"
+                                class="text-white font-extrabold text-base sm:text-lg leading-tight line-clamp-1">
                                 Detail Foto Kegiatan
                             </h3>
                             <span id="galleryModalCategory" class="text-xs text-emerald-300 font-semibold block"></span>
                         </div>
                     </div>
-                    <button onclick="closeGalleryModal()" class="text-white/80 hover:text-white transition-colors p-2 rounded-xl hover:bg-white/10 shrink-0 cursor-pointer" title="Tutup Modal">
+                    <button onclick="closeGalleryModal()"
+                        class="text-white/80 hover:text-white transition-colors p-2 rounded-xl hover:bg-white/10 shrink-0 cursor-pointer"
+                        title="Tutup Modal">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
                 </div>
 
                 {{-- Body Modal (Gambar Diperbesar Maksimal) --}}
                 <div class="bg-slate-950 flex items-center justify-center relative p-4 sm:p-8 min-h-[55vh] max-h-[78vh]">
-                    <img id="galleryModalImg" src="" alt="Foto Kegiatan Desa" class="max-h-[72vh] w-auto object-contain mx-auto rounded-2xl shadow-2xl border border-slate-800">
+                    <img id="galleryModalImg" src="" alt="Foto Kegiatan Desa"
+                        class="max-h-[72vh] w-auto object-contain mx-auto rounded-2xl shadow-2xl border border-slate-800">
                 </div>
 
                 {{-- Footer & Deskripsi --}}
-                <div class="bg-slate-50 p-6 sm:p-7 border-t border-slate-200/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div
+                    class="bg-slate-50 p-6 sm:p-7 border-t border-slate-200/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div class="flex-1 space-y-1.5">
                         <p id="galleryModalDate" class="text-xs font-bold text-emerald-700 flex items-center gap-1.5">
-                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
                             <span></span>
                         </p>
-                        <p id="galleryModalDesc" class="text-slate-700 text-sm leading-relaxed whitespace-pre-line font-medium"></p>
+                        <p id="galleryModalDesc"
+                            class="text-slate-700 text-sm leading-relaxed whitespace-pre-line font-medium"></p>
                     </div>
-                    <button onclick="closeGalleryModal()" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-extrabold rounded-2xl transition-all cursor-pointer shrink-0">
+                    <button onclick="closeGalleryModal()"
+                        class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-extrabold rounded-2xl transition-all cursor-pointer shrink-0">
                         Tutup
                     </button>
                 </div>
@@ -677,7 +796,6 @@
                 let currentSlide = 0;
                 let autoPlayTimer;
                 const totalSlides = slides.length;
-
                 function goToSlide(index) {
                     if (index < 0) index = totalSlides - 1;
                     if (index >= totalSlides) index = 0;
@@ -729,6 +847,42 @@
                         resetAutoPlay();
                     });
                 });
+
+                // Touch Swipe functionality for Mobile
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let touchEndX = 0;
+                let touchEndY = 0;
+
+                heroCarousel.addEventListener('touchstart', (e) => {
+                    if (e.touches.length > 0) {
+                        touchStartX = e.touches[0].clientX;
+                        touchStartY = e.touches[0].clientY;
+                    }
+                }, { passive: true });
+
+                heroCarousel.addEventListener('touchend', (e) => {
+                    if (e.changedTouches.length > 0) {
+                        touchEndX = e.changedTouches[0].clientX;
+                        touchEndY = e.changedTouches[0].clientY;
+                        handleSwipe();
+                    }
+                }, { passive: true });
+
+                function handleSwipe() {
+                    const deltaX = touchEndX - touchStartX;
+                    const deltaY = touchEndY - touchStartY;
+                    const minSwipeDistance = 40;
+
+                    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+                        if (deltaX < 0) {
+                            goToSlide(currentSlide + 1);
+                        } else {
+                            goToSlide(currentSlide - 1);
+                        }
+                        resetAutoPlay();
+                    }
+                }
 
                 if (totalSlides > 1) startAutoPlay();
             }
@@ -843,8 +997,12 @@
                     });
                 }
 
-                wrapper.addEventListener('mouseenter', () => { isPaused = true; });
-                wrapper.addEventListener('mouseleave', () => { isPaused = false; });
+                wrapper.addEventListener('mouseenter', () => {
+                    isPaused = true;
+                });
+                wrapper.addEventListener('mouseleave', () => {
+                    isPaused = false;
+                });
 
                 let touchStartX = 0;
                 let touchStartPos = 0;
@@ -854,7 +1012,9 @@
                         touchStartX = e.touches[0].clientX;
                         touchStartPos = scrollPos;
                     }
-                }, { passive: true });
+                }, {
+                    passive: true
+                });
 
                 wrapper.addEventListener('touchmove', (e) => {
                     if (e.touches.length > 0) {
@@ -862,13 +1022,17 @@
                         scrollPos = touchStartPos + delta;
                         render();
                     }
-                }, { passive: true });
+                }, {
+                    passive: true
+                });
 
                 wrapper.addEventListener('touchend', () => {
                     if (!wrapper.matches(':hover')) {
                         isPaused = false;
                     }
-                }, { passive: true });
+                }, {
+                    passive: true
+                });
 
                 requestAnimationFrame(animate);
             })();

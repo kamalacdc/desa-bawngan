@@ -30,7 +30,11 @@ class GalleryController extends Controller
 
     public function create()
     {
-        return view('admin.galleries.form', ['gallery' => null]);
+        $nextSortOrder = (Gallery::max('sort_order') ?? 0) + 1;
+        return view('admin.galleries.form', [
+            'gallery' => null,
+            'nextSortOrder' => $nextSortOrder,
+        ]);
     }
 
     public function store(Request $request)

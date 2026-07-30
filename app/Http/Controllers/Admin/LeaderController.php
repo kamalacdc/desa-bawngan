@@ -18,7 +18,11 @@ class LeaderController extends Controller
 
     public function create()
     {
-        return view('admin.leaders.form', ['leader' => null]);
+        $nextSortOrder = (Leader::max('sort_order') ?? 0) + 1;
+        return view('admin.leaders.form', [
+            'leader' => null,
+            'nextSortOrder' => $nextSortOrder,
+        ]);
     }
 
     public function store(Request $request)

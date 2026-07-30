@@ -17,9 +17,15 @@ class ApbdesSpreadsheetService
      */
     public function fetchApbdesData(string $spreadsheetId, string $range): array
     {
+        if (!preg_match('/^[a-zA-Z0-9-_]+$/', $spreadsheetId)) {
+            throw new Exception("Spreadsheet ID tidak valid.");
+        }
+
         $url = "https://docs.google.com/spreadsheets/d/{$spreadsheetId}/gviz/tq?tqx=out:csv&range=" . urlencode($range);
 
-        $response = Http::withoutVerifying()->get($url);
+        $verifySsl = config('services.spreadsheet.verify_ssl', true);
+        $httpRequest = $verifySsl ? Http::timeout(15) : Http::withoutVerifying()->timeout(15);
+        $response = $httpRequest->get($url);
 
         if (!$response->successful()) {
             throw new Exception("Gagal mengambil data dari Google Sheets API (HTTP {$response->status()}). Pastikan Sheet bersifat Publik.");

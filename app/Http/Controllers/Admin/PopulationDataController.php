@@ -98,9 +98,8 @@ class PopulationDataController extends Controller
      */
     public function syncFromSpreadsheet(Request $request, SpreadsheetService $spreadsheetService)
     {
-        // Using the user's provided Spreadsheet ID and Range
-        $spreadsheetId = env('POPULATION_SPREADSHEET_ID', '1r_APDw4mDAqxteLmdb6gPNEdEaBm0MTtKEChybj9QOI');
-        $range = env('POPULATION_SPREADSHEET_RANGE', '');
+        $spreadsheetId = config('services.spreadsheet.population_id');
+        $range = config('services.spreadsheet.population_range');
 
         try {
             $data = $spreadsheetService->fetchPopulationData($spreadsheetId, $range);

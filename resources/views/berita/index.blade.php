@@ -82,10 +82,10 @@
                             </a>
                         </h3>
                         <p class="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6 flex-1">{{ Str::limit($item->excerpt, 120) }}</p>
-                        <div class="flex items-center text-xs font-bold text-sky-700 mt-auto group-hover:text-sky-800 transition-colors cursor-pointer">
+                        <a href="{{ route('berita.detail', $item->slug) }}" class="flex items-center text-xs font-bold text-sky-700 mt-auto group-hover:text-sky-800 transition-colors cursor-pointer hover:underline">
                             <span>Baca Selengkapnya</span>
                             <svg class="w-4 h-4 ml-1 group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                        </div>
+                        </a>
                     </div>
                 </article>
                 @endforeach

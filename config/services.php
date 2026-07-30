@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'spreadsheet' => [
+        'population_id' => env('POPULATION_SPREADSHEET_ID', '1r_APDw4mDAqxteLmdb6gPNEdEaBm0MTtKEChybj9QOI'),
+        'population_range' => env('POPULATION_SPREADSHEET_RANGE', ''),
+        'budget_id' => env('BUDGET_SPREADSHEET_ID', '1Ze-RMNUgR6L9DLqUYTybf-_5RmgFf_zCxp-UJ0JLRmk'),
+        'budget_range' => env('BUDGET_SPREADSHEET_RANGE', "'APBDes Bawangan 2026'!A1:C23"),
+        'verify_ssl' => (bool) env('SPREADSHEET_VERIFY_SSL', true),
+    ],
+
 ];

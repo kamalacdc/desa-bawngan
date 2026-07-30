@@ -89,8 +89,8 @@ class BudgetDataController extends Controller
      */
     public function syncFromSpreadsheet(Request $request, ApbdesSpreadsheetService $spreadsheetService)
     {
-        $spreadsheetId = env('BUDGET_SPREADSHEET_ID', '1Ze-RMNUgR6L9DLqUYTybf-_5RmgFf_zCxp-UJ0JLRmk');
-        $range = env('BUDGET_SPREADSHEET_RANGE', "'APBDes Bawangan 2026'!A1:C23");
+        $spreadsheetId = config('services.spreadsheet.budget_id');
+        $range = config('services.spreadsheet.budget_range');
         $year = date('Y'); // Or extract from range/sheet name if needed
 
         try {

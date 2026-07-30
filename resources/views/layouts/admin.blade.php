@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Dashboard') — SID Bawangan Admin</title>
+    <link rel="icon" href="{{ asset('logo/jombang.png') }}" type="image/png">
+    <title>@yield('title', 'Dashboard') — Bawangan Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -28,7 +29,7 @@
                     </div>
                     <div>
                         <div class="flex items-center gap-1.5">
-                            <span class="font-extrabold text-sm tracking-wide text-white group-hover:text-sky-400 transition-colors">SID Bawangan</span>
+                            <span class="font-extrabold text-sm tracking-wide text-white group-hover:text-sky-400 transition-colors">Dashboard Bawangan</span>
                             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                         </div>
                         <span class="text-[11px] text-slate-400 font-medium block">Portal Administrasi Desa</span>
@@ -41,7 +42,7 @@
 
             {{-- User Role Card --}}
             <div class="p-4 border-b border-slate-800/80 shrink-0 bg-gradient-to-r from-slate-900/90 to-slate-950">
-                <div class="flex items-center gap-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800">
+                <a href="{{ route('admin.account.profile') }}" class="flex items-center gap-3 bg-slate-900/80 p-3 rounded-2xl border border-slate-800 hover:border-sky-500/50 hover:bg-slate-900 transition-all group">
                     <div class="w-10 h-10 rounded-xl {{ Auth::user()->isSuperAdmin() ? 'bg-gradient-to-tr from-amber-500 to-sky-600' : 'bg-gradient-to-tr from-sky-600 to-emerald-600' }} flex items-center justify-center font-extrabold text-white shadow-md overflow-hidden shrink-0 border border-white/20">
                         @if(Auth::user()->avatar)
                             <img src="{{ asset('storage/' . Auth::user()->avatar) }}" class="w-full h-full object-cover">
@@ -50,7 +51,7 @@
                         @endif
                     </div>
                     <div class="flex-1 overflow-hidden">
-                        <p class="text-xs font-bold text-slate-100 truncate">{{ Auth::user()->name }}</p>
+                        <p class="text-xs font-bold text-slate-100 group-hover:text-sky-300 transition-colors truncate">{{ Auth::user()->name }}</p>
                         <div class="flex items-center gap-1.5 mt-0.5">
                             @if(Auth::user()->isSuperAdmin())
                                 <span class="px-2 py-0.5 rounded-md text-[9px] font-extrabold tracking-wider uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30">Super Admin</span>
@@ -59,7 +60,7 @@
                             @endif
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             {{-- Navigation Links --}}
@@ -72,13 +73,24 @@
                 </a>
 
                 <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 mt-6">Informasi & Berita</p>
-                
+
                 <a href="{{ route('admin.news.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer {{ request()->routeIs('admin.news.*') ? 'bg-gradient-to-r from-sky-600 to-sky-700 text-white shadow-md shadow-sky-600/30 font-bold border-l-4 border-sky-400' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
                     <svg class="w-4 h-4 shrink-0 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                     <span>Berita Desa</span>
                 </a>
-
+                
                 @if(Auth::user()->isSuperAdmin())
+                <a href="{{ route('admin.approvals') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer {{ request()->routeIs('admin.approvals') ? 'bg-gradient-to-r from-sky-600 to-sky-700 text-white shadow-md shadow-sky-600/30 font-bold border-l-4 border-sky-400' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-4 h-4 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>Approval Berita</span>
+                    </div>
+                    @php $pendingCount = \App\Models\News::where('status', 'submitted')->count(); @endphp
+                    @if($pendingCount > 0)
+                        <span class="bg-amber-400 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full shadow-sm animate-pulse">{{ $pendingCount }}</span>
+                    @endif
+                </a>
+
                 <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 mt-6">Manajemen Konten Web</p>
 
                 <a href="{{ route('admin.content.slides') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer {{ request()->routeIs('admin.content.slides*') ? 'bg-gradient-to-r from-sky-600 to-sky-700 text-white shadow-md shadow-sky-600/30 font-bold border-l-4 border-sky-400' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
@@ -111,16 +123,7 @@
                     <span>Galeri Kegiatan</span>
                 </a>
 
-                <a href="{{ route('admin.approvals') }}" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer {{ request()->routeIs('admin.approvals') ? 'bg-gradient-to-r from-sky-600 to-sky-700 text-white shadow-md shadow-sky-600/30 font-bold border-l-4 border-sky-400' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
-                    <div class="flex items-center gap-3">
-                        <svg class="w-4 h-4 shrink-0 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span>Approval Berita</span>
-                    </div>
-                    @php $pendingCount = \App\Models\News::where('status', 'submitted')->count(); @endphp
-                    @if($pendingCount > 0)
-                        <span class="bg-amber-400 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full shadow-sm animate-pulse">{{ $pendingCount }}</span>
-                    @endif
-                </a>
+                
 
                 <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 mt-6">Data & Publikasi</p>
                 
@@ -152,9 +155,9 @@
 
                 <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2 mt-6">Akun</p>
 
-                <a href="{{ route('admin.account.change-password') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer {{ request()->routeIs('admin.account.*') ? 'bg-gradient-to-r from-sky-600 to-sky-700 text-white shadow-md shadow-sky-600/30 font-bold border-l-4 border-sky-400' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
-                    <svg class="w-4 h-4 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-                    <span>Keamanan & Password</span>
+                <a href="{{ route('admin.account.profile') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer {{ request()->routeIs('admin.account.*') ? 'bg-gradient-to-r from-sky-600 to-sky-700 text-white shadow-md shadow-sky-600/30 font-bold border-l-4 border-sky-400' : 'text-slate-300 hover:bg-slate-900 hover:text-white' }}">
+                    <svg class="w-4 h-4 shrink-0 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    <span>Kelola Profil & Keamanan</span>
                 </a>
             </nav>
 

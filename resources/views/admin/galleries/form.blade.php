@@ -99,7 +99,7 @@
                 <label for="sort_order" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                     Urutan Tampil
                 </label>
-                <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $gallery->sort_order ?? 0) }}" min="0" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500 font-semibold @error('sort_order') border-rose-400 bg-rose-50/50 @enderror">
+                <input type="number" name="sort_order" id="sort_order" value="{{ old('sort_order', $gallery->sort_order ?? $nextSortOrder ?? 1) }}" min="0" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-sky-500 font-semibold @error('sort_order') border-rose-400 bg-rose-50/50 @enderror">
                 <p class="text-[11px] text-slate-500 mt-1">Semakin kecil angkanya, semakin awal tampil.</p>
                 @error('sort_order')
                     <p class="text-rose-500 text-xs font-semibold mt-1.5">{{ $message }}</p>

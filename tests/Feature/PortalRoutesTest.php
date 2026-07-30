@@ -56,4 +56,69 @@ class PortalRoutesTest extends TestCase
         $this->assertEquals('Sambutan Kepala Desa Bawangan', $profile->welcome_title);
         $this->assertEquals('Selamat datang di Desa Bawangan. Salam sejahtera.', $profile->welcome_speech);
     }
+
+    public function test_leader_and_gallery_create_forms_have_auto_incremented_sort_order(): void
+    {
+        $admin = User::factory()->create(['role' => 'super_admin']);
+
+        \App\Models\Leader::create([
+            'name' => 'Perangkat 1',
+            'position' => 'Kasi',
+            'sort_order' => 5,
+            'is_active' => true,
+        ]);
+
+        $responseLeader = $this->actingAs($admin)->get('/admin/leaders/create');
+        $responseLeader->assertStatus(200);
+        $responseLeader->assertViewHas('nextSortOrder', 6);
+
+        \App\Models\Gallery::create([
+            'title' => 'Kegiatan 1',
+            'image' => 'galleries/sample.jpg',
+            'sort_order' => 3,
+            'is_active' => true,
+        ]);
+
+        $responseGallery = $this->actingAs($admin)->get('/admin/galleries/create');
+        $responseGallery->assertStatus(200);
+        $responseGallery->assertViewHas('nextSortOrder', 4);
+    }
+
+    public function test_user_can_access_and_update_profile_and_password(): void
+    {
+        $user = User::factory()->create([
+            'role' => 'admin',
+            'name' => 'Nama Lama',
+            'email' => 'lama@bawangan.id',
+            'jabatan' => 'Staf IT',
+        ]);
+
+        $this->actingAs($user)->get('/admin/account/profile')->assertStatus(200)->assertSee('Nama Lama');
+
+        $response = $this->actingAs($user)->put('/admin/account/profile', [
+            'name' => 'Nama Baru Administrator',
+            'email' => 'baru@bawangan.id',
+            'jabatan' => 'Sekretaris Baru',
+        ]);
+
+        $response->assertRedirect('/admin/account/profile');
+        $response->assertSessionHas('success');
+
+        $user->refresh();
+        $this->assertEquals('Nama Baru Administrator', $user->name);
+        $this->assertEquals('baru@bawangan.id', $user->email);
+        $this->assertEquals('Sekretaris Baru', $user->jabatan);
+
+        // Test change-password route redirects to unified profile page
+        $this->actingAs($user)->get('/admin/account/change-password')->assertRedirect('/admin/account/profile#password');
+    }
+
+    public function test_approval_menu_is_only_visible_to_super_admin(): void
+    {
+        $superAdmin = User::factory()->create(['role' => 'super_admin']);
+        $adminStaff = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($superAdmin)->get('/admin')->assertSee('Approval Berita');
+        $this->actingAs($adminStaff)->get('/admin')->assertDontSee('Approval Berita');
+    }
 }
